@@ -1,0 +1,26 @@
+.FlexProfileDrawer{
+    display: flex;
+    flex-direction: row;
+    margin: 20px 25px 0px -90px;
+}
+
+.FlexColumnProfile{
+    text-align: center;
+}
+
+.FlexProfileDrawerRow{
+
+    display: flex;
+    flex-direction: row;
+    margin: 10px 15px 0px 15px;
+
+}
+
+.FlexColumn{
+    display: flex;
+    flex-direction: column;
+}
+.FlexRow{
+    display: flex;
+    flex-direction: row;
+}
