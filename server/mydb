@@ -1,0 +1,353 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.3
+
+-- Started on 2020-10-21 14:20:04
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 207 (class 1259 OID 16808)
+-- Name: comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.comments (
+    cid integer NOT NULL,
+    comment character varying(255),
+    author character varying,
+    user_id integer,
+    post_id integer,
+    date_created timestamp without time zone
+);
+
+
+ALTER TABLE public.comments OWNER TO postgres;
+
+--
+-- TOC entry 206 (class 1259 OID 16806)
+-- Name: comments_cid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.comments_cid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.comments_cid_seq OWNER TO postgres;
+
+--
+-- TOC entry 2855 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: comments_cid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.comments_cid_seq OWNED BY public.comments.cid;
+
+
+--
+-- TOC entry 205 (class 1259 OID 16787)
+-- Name: posts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.posts (
+    pid integer NOT NULL,
+    title character varying(255),
+    body character varying(255),
+    user_id integer,
+    author character varying,
+    date_created timestamp without time zone,
+    search_vector tsvector
+);
+
+
+ALTER TABLE public.posts OWNER TO postgres;
+
+--
+-- TOC entry 204 (class 1259 OID 16785)
+-- Name: posts_pid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.posts_pid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.posts_pid_seq OWNER TO postgres;
+
+--
+-- TOC entry 2856 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: posts_pid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.posts_pid_seq OWNED BY public.posts.pid;
+
+
+--
+-- TOC entry 203 (class 1259 OID 16774)
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    uid integer NOT NULL,
+    username character varying(255),
+    email character varying(255),
+    email_verified boolean,
+    date_created date,
+    last_login date
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- TOC entry 202 (class 1259 OID 16772)
+-- Name: users_uid_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_uid_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_uid_seq OWNER TO postgres;
+
+--
+-- TOC entry 2857 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: users_uid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_uid_seq OWNED BY public.users.uid;
+
+
+--
+-- TOC entry 2704 (class 2604 OID 16811)
+-- Name: comments cid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments ALTER COLUMN cid SET DEFAULT nextval('public.comments_cid_seq'::regclass);
+
+
+--
+-- TOC entry 2703 (class 2604 OID 16790)
+-- Name: posts pid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN pid SET DEFAULT nextval('public.posts_pid_seq'::regclass);
+
+
+--
+-- TOC entry 2702 (class 2604 OID 16777)
+-- Name: users uid; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN uid SET DEFAULT nextval('public.users_uid_seq'::regclass);
+
+
+--
+-- TOC entry 2849 (class 0 OID 16808)
+-- Dependencies: 207
+-- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.comments (cid, comment, author, user_id, post_id, date_created) FROM stdin;
+4	great comedy tv show based on NYPD	admin	1	2	2020-10-15 22:50:46.448826
+6	great comedy tv show based on CIA	nafiz	2	1	2020-10-15 22:58:47.629589
+5	like poniac bandit... and jake	admin	1	2	2020-10-16 01:37:05.654134
+1	good tv show....	nafiz	2	1	2020-10-16 11:43:11.477881
+7	liked it	admin	1	4	2020-10-16 16:33:53.433794
+8	liked it	nafiz	2	2	2020-10-16 16:49:27.527048
+9	it's okay	nafiz	2	8	2020-10-17 23:46:02.946944
+10	best detective tv series	nafiz	2	9	2020-10-17 23:46:52.908962
+\.
+
+
+--
+-- TOC entry 2847 (class 0 OID 16787)
+-- Dependencies: 205
+-- Data for Name: posts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.posts (pid, title, body, user_id, author, date_created, search_vector) FROM stdin;
+4	the mentalist	mystery , revenge , tricks	2	nafiz	2020-10-16 16:31:08.107482	\N
+3	gossip girl	romance , drama , ploting	2	nafiz	2020-10-16 00:00:00	\N
+7	castle	romance , mystery . comedy	2	nafiz	2020-10-17 00:00:00	\N
+12	teen wolf	supernatural , wolf	2	nafiz	2020-10-17 17:05:43.142966	\N
+13	how i met your mother	comedy , romance , barney	2	nafiz	2020-10-17 17:17:48.550079	\N
+14	skins	romance , drama , comedy , British	2	nafiz	2020-10-17 17:18:18.892613	\N
+15	Big bang theory	comedy , romance , penny	2	nafiz	2020-10-17 17:18:43.739585	\N
+16	the good place	comedy , drama , plot	1	admin	2020-10-17 20:18:52.895116	\N
+17	breaking bad	mystery , action , drama , narcotic	2	nafiz	2020-10-17 20:19:50.62039	\N
+18	ripper street	mystery , drama , plot , \ndetective	2	nafiz	2020-10-17 20:20:26.572554	\N
+19	new girl	romance , comedy , drama , happy Ending	1	admin	2020-10-17 20:20:57.960098	\N
+21	mission impossible	not to watch it is impossible	1	admin	2020-10-17 23:43:28.150135	\N
+22	john wick	best action and bad-ass movie	1	admin	2020-10-17 23:44:18.285671	\N
+23	twilight 	vampire and warewolf	1	admin	2020-10-17 23:44:47.128254	\N
+24	interview with a vampire	tom cruise and brad pitt	1	admin	2020-10-18 14:08:52.722937	'admin':10 'brad':8 'cruis':6 'interview':1 'pitt':9 'tom':5 'vampir':4
+6	pretty little liars	romance , drama , mystery , aria	1	admin	2020-10-18 14:42:03.627654	'admin':8 'aria':7 'drama':5 'liar':3 'littl':2 'mysteri':6 'pretti':1 'romanc':4
+2	brooklyn 99	mystery , romantic , comedy , jake , amy	1	admin	2020-10-18 14:42:36.847942	'99':2 'admin':8 'ami':7 'brooklyn':1 'comedi':5 'jake':6 'mysteri':3 'romant':4
+1	chuck	mystery , romantic , comedy , great CIA SPY	1	admin	2020-10-18 14:43:10.923748	'admin':8 'chuck':1 'cia':6 'comedi':4 'great':5 'mysteri':2 'romant':3 'spi':7
+5	the oc	romance , drama 	1	admin	2020-10-18 21:55:14.049543	'admin':5 'drama':4 'oc':2 'romanc':3
+8	lie to me	romance , drama , 	1	admin	2020-10-18 21:55:34.732929	'admin':6 'drama':5 'lie':1 'romanc':4
+9	sherlock	mystery , intelligence ,british	1	admin	2020-10-18 21:55:43.448025	'admin':5 'british':4 'intellig':3 'mysteri':2 'sherlock':1
+10	true blood	supernatural , sookie	1	admin	2020-10-18 22:03:23.371188	'admin':5 'blood':2 'sooki':4 'supernatur':3 'true':1
+11	the vampire diaries	supernatural , romance,Damon,Elena	1	admin	2020-10-18 22:03:34.701635	'admin':8 'damon':6 'diari':3 'elena':7 'romanc':5 'supernatur':4 'vampir':2
+20	predestination 	great mystery movie  time loops	1	admin	2020-10-18 22:03:49.401063	'admin':7 'great':2 'loop':6 'movi':4 'mysteri':3 'predestin':1 'time':5
+\.
+
+
+--
+-- TOC entry 2845 (class 0 OID 16774)
+-- Dependencies: 203
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (uid, username, email, email_verified, date_created, last_login) FROM stdin;
+1	admin	admin@admin.com	t	2020-10-14	2020-10-14
+2	nafiz	n@n.com	t	2020-10-16	2020-10-16
+\.
+
+
+--
+-- TOC entry 2858 (class 0 OID 0)
+-- Dependencies: 206
+-- Name: comments_cid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.comments_cid_seq', 10, true);
+
+
+--
+-- TOC entry 2859 (class 0 OID 0)
+-- Dependencies: 204
+-- Name: posts_pid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.posts_pid_seq', 24, true);
+
+
+--
+-- TOC entry 2860 (class 0 OID 0)
+-- Dependencies: 202
+-- Name: users_uid_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_uid_seq', 2, true);
+
+
+--
+-- TOC entry 2712 (class 2606 OID 16816)
+-- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_pkey PRIMARY KEY (cid);
+
+
+--
+-- TOC entry 2710 (class 2606 OID 16795)
+-- Name: posts posts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_pkey PRIMARY KEY (pid);
+
+
+--
+-- TOC entry 2706 (class 2606 OID 16782)
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (uid);
+
+
+--
+-- TOC entry 2708 (class 2606 OID 16784)
+-- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_username_key UNIQUE (username);
+
+
+--
+-- TOC entry 2715 (class 2606 OID 16817)
+-- Name: comments comments_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_author_fkey FOREIGN KEY (author) REFERENCES public.users(username);
+
+
+--
+-- TOC entry 2717 (class 2606 OID 16827)
+-- Name: comments comments_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(pid);
+
+
+--
+-- TOC entry 2716 (class 2606 OID 16822)
+-- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(uid);
+
+
+--
+-- TOC entry 2714 (class 2606 OID 16801)
+-- Name: posts posts_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_author_fkey FOREIGN KEY (author) REFERENCES public.users(username);
+
+
+--
+-- TOC entry 2713 (class 2606 OID 16796)
+-- Name: posts posts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT posts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(uid);
+
+
+-- Completed on 2020-10-21 14:20:05
+
+--
+-- PostgreSQL database dump complete
+--
+
